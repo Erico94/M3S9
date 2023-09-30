@@ -34,6 +34,7 @@ namespace M3S9_jogos.webApi.Controllers
             {
                 return NotFound();
             }
+            return Ok(estudio);
         }
 
         [HttpPost]
