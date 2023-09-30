@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using AutoMapper;
+using M3S9_jogos.webApi.DTOs.Estudios;
+using M3S9_jogos.webApi.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,15 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Jogos", Description = "API CRUD JOGOS", Version = "v1" });
 });
 
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.CreateMap<Estudio, EstudioViewDTO>();
+    cfg.CreateMap<CreateEstudioDTO, Estudio>();
+    cfg.CreateMap<UpdateEstudioDTO, Estudio>();
+});
+
+IMapper mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
-﻿using M3S9_jogos.webApi.Domain;
+﻿using AutoMapper;
+using M3S9_jogos.webApi.Domain;
+using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.Repositores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,47 +12,57 @@ namespace M3S9_jogos.webApi.Controllers
     public class EstudiosController : ControllerBase
     {
         readonly EstudioRepository _estudioRepository;
-
-        public EstudiosController(EstudioRepository estudioRepository)
+        readonly IMapper _mapper;
+        public EstudiosController(EstudioRepository estudioRepository, IMapper mapper)
         {
             _estudioRepository = estudioRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Estudio>> Get()
+        public ActionResult<EstudioViewDTO> Get()
         {
             List<Estudio> estudios = _estudioRepository.Get();
             if (estudios == null || estudios.Count == 0)
             {
                 return NoContent();
             }
-            return Ok(estudios);
+            var listDto =_mapper.Map<List<EstudioViewDTO>>(estudios);
+            return Ok(listDto);
         }
         [HttpGet("{id}")]
-        public ActionResult<Estudio> Get(int id)
+        public ActionResult<EstudioViewDTO> Get(int id)
         {
             Estudio estudio = _estudioRepository.Get(id);
             if (estudio == null)
             {
                 return NotFound();
             }
-            return Ok(estudio);
+            var dto =_mapper.
+                Map<EstudioViewDTO>(estudio);
+           
+            return Ok(dto);
         }
 
         [HttpPost]
-        public ActionResult<Estudio> Post(Estudio estudio)
+        public ActionResult Post(CreateEstudioDTO dto)
         {
+            var estudio = _mapper.Map<Estudio>(dto);
             _estudioRepository.Insert(estudio);
 
-            return Ok(estudio);
+            var estudioViewDto = _mapper.Map<EstudioViewDTO>(estudio);
+
+            return Ok(estudioViewDto);
 
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, Estudio estudio)
+        public ActionResult Put(int id, UpdateEstudioDTO dto)
         {
             if (_estudioRepository.Get(id) == null)
                 return NotFound();
+
+            var estudio = _mapper.Map<Estudio>(dto);
             if (estudio.Id != id)
                 return BadRequest();
 
