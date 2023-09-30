@@ -63,7 +63,7 @@ namespace M3S9_jogos.webApi.Controllers
         public ActionResult Delete(int id)
         {
             var estudio = _estudioRepository.Get(id);
-                if (estudio== null)
+            if (estudio == null)
                 return NotFound();
 
             _estudioRepository.Delete(id);
