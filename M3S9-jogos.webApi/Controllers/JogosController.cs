@@ -51,9 +51,9 @@ namespace M3S9_jogos.webApi.Controllers
             var jogo = _mapper.Map<Jogo>(dto);
             _jogoRepository.Insert(jogo);
 
-            var viewJogoDto = _mapper.Map<ViewJogoDTO>(jogo);
+            //var viewJogoDto = _mapper.Map<ViewJogoDTO>(jogo);
 
-            return Ok(viewJogoDto);
+            return Ok(jogo);
         }
 
         [HttpPut("{id}")]

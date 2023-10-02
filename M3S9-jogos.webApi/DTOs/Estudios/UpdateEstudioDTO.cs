@@ -9,7 +9,7 @@ namespace M3S9_jogos.webApi.DTOs.Estudios
         [Required]
         public string Nome { get; set; }
         [Required]
-        public string Endereço { get; set; }
+        public string Endereco { get; set; }
         public DateTime DataCriacao { get; set; }
 
     }

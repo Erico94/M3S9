@@ -18,7 +18,7 @@ namespace M3S9_jogos.webApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Endereço = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -27,7 +27,7 @@ namespace M3S9_jogos.webApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jogosos",
+                name: "Jogos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -38,9 +38,9 @@ namespace M3S9_jogos.webApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Jogosos", x => x.Id);
+                    table.PrimaryKey("PK_Jogos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jogosos_Estudios_EstudioId",
+                        name: "FK_Jogos_Estudios_EstudioId",
                         column: x => x.EstudioId,
                         principalTable: "Estudios",
                         principalColumn: "Id",
@@ -48,8 +48,8 @@ namespace M3S9_jogos.webApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jogosos_EstudioId",
-                table: "Jogosos",
+                name: "IX_Jogos_EstudioId",
+                table: "Jogos",
                 column: "EstudioId");
         }
 
@@ -57,7 +57,7 @@ namespace M3S9_jogos.webApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Jogosos");
+                name: "Jogos");
 
             migrationBuilder.DropTable(
                 name: "Estudios");

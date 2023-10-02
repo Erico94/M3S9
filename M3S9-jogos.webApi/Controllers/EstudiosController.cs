@@ -50,9 +50,9 @@ namespace M3S9_jogos.webApi.Controllers
             var estudio = _mapper.Map<Estudio>(dto);
             _estudioRepository.Insert(estudio);
 
-            var estudioViewDto = _mapper.Map<EstudioViewDTO>(estudio);
+            //var estudioViewDto = _mapper.Map<EstudioViewDTO>(estudio);
 
-            return Ok(estudioViewDto);
+            return Ok(estudio);
 
         }
 
