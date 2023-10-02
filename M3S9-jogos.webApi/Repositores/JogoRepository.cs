@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace M3S9_jogos.webApi.Repositores
 {
-    public class JogoRepository
+    public class JogoRepository : IJogoRepository
     {
         readonly JogoDbContext _jogoDbContext;
 

@@ -10,7 +10,7 @@ namespace M3S9_jogos.webApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JogosController : ControllerBase
+    public class JogosController : ControllerBase, IJogosController
     {
         readonly JogoRepository _jogoRepository;
         readonly IMapper _mapper;

@@ -8,6 +8,8 @@ using AutoMapper;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Jogos;
+using M3S9_jogos.webApi.Services.Estudio;
+using M3S9_jogos.webApi.Services.Jogo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,9 @@ builder.Services.AddDbContext<JogoDbContext>();
 
 builder.Services.AddScoped<EstudioRepository>();
 builder.Services.AddScoped<JogoRepository>();
+
+builder.Services.AddScoped<IEstudiosService>();
+builder.Services.AddScoped<IJogosService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

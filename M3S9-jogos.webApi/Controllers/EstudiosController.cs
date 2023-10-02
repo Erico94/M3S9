@@ -9,7 +9,7 @@ namespace M3S9_jogos.webApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EstudiosController : ControllerBase
+    public class EstudiosController : ControllerBase, IEstudiosService
     {
         readonly EstudioRepository _estudioRepository;
         readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace M3S9_jogos.webApi.Controllers
             {
                 return NoContent();
             }
-            var listDto =_mapper.Map<List<EstudioViewDTO>>(estudios);
+            var listDto = _mapper.Map<List<EstudioViewDTO>>(estudios);
             return Ok(listDto);
         }
         [HttpGet("{id}")]
@@ -38,9 +38,9 @@ namespace M3S9_jogos.webApi.Controllers
             {
                 return NotFound();
             }
-            var dto =_mapper.
+            var dto = _mapper.
                 Map<EstudioViewDTO>(estudio);
-           
+
             return Ok(dto);
         }
 
