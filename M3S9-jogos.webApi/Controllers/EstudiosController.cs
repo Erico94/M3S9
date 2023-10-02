@@ -45,7 +45,7 @@ namespace M3S9_jogos.webApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(CreateEstudioDTO dto)
+        public ActionResult Post(DTOs.Estudios.CreateJogoDTO dto)
         {
             var estudio = _mapper.Map<Estudio>(dto);
             _estudioRepository.Insert(estudio);

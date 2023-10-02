@@ -30,7 +30,7 @@ var config = new MapperConfiguration(cfg =>
     cfg.CreateMap<Estudio, EstudioViewDTO>();
     cfg.CreateMap<Jogo, ViewJogoDTO>();
 
-    cfg.CreateMap<CreateEstudioDTO, Estudio>();
+    cfg.CreateMap<M3S9_jogos.webApi.DTOs.Estudios.CreateJogoDTO, Estudio>();
     cfg.CreateMap<CreateJogoDTO, Jogo>();
 
     cfg.CreateMap<UpdateEstudioDTO, Estudio>();
