@@ -33,6 +33,10 @@ namespace M3S9_jogos.webApi.Migrations
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Endereço")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -42,6 +46,47 @@ namespace M3S9_jogos.webApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estudios", (string)null);
+                });
+
+            modelBuilder.Entity("M3S9_jogos.webApi.Domain.Jogo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Categoria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EstudioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstudioId");
+
+                    b.ToTable("Jogosos", (string)null);
+                });
+
+            modelBuilder.Entity("M3S9_jogos.webApi.Domain.Jogo", b =>
+                {
+                    b.HasOne("M3S9_jogos.webApi.Domain.Estudio", "Estudio")
+                        .WithMany("Jogos")
+                        .HasForeignKey("EstudioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estudio");
+                });
+
+            modelBuilder.Entity("M3S9_jogos.webApi.Domain.Estudio", b =>
+                {
+                    b.Navigation("Jogos");
                 });
 #pragma warning restore 612, 618
         }

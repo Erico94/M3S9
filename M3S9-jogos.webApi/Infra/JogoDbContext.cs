@@ -7,7 +7,7 @@ namespace M3S9_jogos.webApi.Infra
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=DESKTOP-BG5E4QK\\SQLEXPRESS;Database=M3S9-WebApi;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
+            var connectionString = "Server=DESKTOP-9HO92VC\\SQLEXPRESS;Database=M3S9-WebApi;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
             optionsBuilder.UseSqlServer(connectionString);
         }
 

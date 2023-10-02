@@ -7,7 +7,7 @@
         public string Endereço { get; set; }
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 
-        public ICollection<Jogo> Jogos { get; set; };
+        public ICollection<Jogo> Jogos { get; set; }
 
     }
 }
