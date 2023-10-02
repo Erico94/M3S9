@@ -15,7 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<JogoDbContext>();
-
 builder.Services.AddScoped<EstudioRepository>();
 builder.Services.AddScoped<JogoRepository>();
 
@@ -27,10 +26,10 @@ builder.Services.AddSwaggerGen(c =>
 
 var config = new MapperConfiguration(cfg =>
 {
-    cfg.CreateMap<Estudio, EstudioViewDTO>();
-    cfg.CreateMap<Jogo, ViewJogoDTO>();
+    //cfg.CreateMap<Estudio, EstudioViewDTO>();
+    //cfg.CreateMap<Jogo, ViewJogoDTO>();
 
-    cfg.CreateMap<M3S9_jogos.webApi.DTOs.Estudios.CreateJogoDTO, Estudio>();
+    cfg.CreateMap<CreateEstudioDTO, Estudio>();
     cfg.CreateMap<CreateJogoDTO, Jogo>();
 
     cfg.CreateMap<UpdateEstudioDTO, Estudio>();

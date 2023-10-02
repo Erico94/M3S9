@@ -2,7 +2,7 @@
 
 namespace M3S9_jogos.webApi.DTOs.Estudios
 {
-    public class CreateJogoDTO
+    public class CreateEstudioDTO
     {
         [Required]
         public string Nome { get; set; }
