@@ -1,3 +1,11 @@
-﻿internal class EstudioViewDTO
+﻿namespace M3S9_jogos.webApi.DTOs.Estudios
 {
+    public class EstudioViewDTO
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Endereço { get; set; }
+        public DateTime DataCriacao { get; set; }
+    }
+
 }

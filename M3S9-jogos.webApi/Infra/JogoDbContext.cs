@@ -14,6 +14,7 @@ namespace M3S9_jogos.webApi.Infra
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EstudioConfiguration());
+            modelBuilder.ApplyConfiguration(new JogoConfiguration());
         }
 
     }
