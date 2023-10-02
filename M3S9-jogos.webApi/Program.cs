@@ -47,6 +47,15 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API JOGOS");
 });
+
+//Cors
+app.UseCors(p =>
+{
+    p.AllowAnyOrigin();
+    p.AllowAnyHeader();
+    p.AllowAnyMethod();
+});
+
 app.UseAuthorization();
 
 app.MapControllers();
