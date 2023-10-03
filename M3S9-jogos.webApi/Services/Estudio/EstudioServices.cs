@@ -1,51 +1,58 @@
 ﻿using AutoMapper;
+using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.Repositores;
-using Microsoft.AspNetCore.Mvc;
+using M3S9_jogos.webApi.Services.Estudio;
 
-namespace M3S9_jogos.webApi.Services.Estudio
+public class EstudioServices : IEstudioServices
 {
-    public class EstudioServices : IEstudioService
+    readonly IRepository<Estudio> _repository;
+    readonly IMapper _mapper;
+
+    public EstudioServices(IRepository<Estudio> repository, IMapper mapper)
     {
-        readonly EstudioRepository estudioRepository;
-        readonly IMapper mapper;
+        _repository = repository;
+        _mapper = mapper;
+    }
 
-        public EstudioServices(EstudioRepository _estudioRepository, IMapper _mapper)
+    public IEnumerable<EstudioViewDTO> Get()
+    {
+        var estudios = _repository.GetAll();
+        var estudiosDTO = _mapper.Map<IEnumerable<EstudioViewDTO>>(estudios);
+        return estudiosDTO;
+    }
+
+    public EstudioViewDTO GetEstudioById(int id)
+    {
+        var estudio = _repository.GetById(id);
+        var estudioDTO = _mapper.Map<EstudioViewDTO>(estudio);
+        return estudioDTO;
+    }
+
+    public Estudio CreateEstudioDTO(CreateEstudioDTO estudioCreateDTO)
+    {
+        var estudio = _mapper.Map<Estudio>(estudioCreateDTO);
+        var estudioCreated = _repository.Create(estudio);
+        var estudioCreatedDTO = _mapper.Map<Estudio>(estudioCreated);
+        return estudioCreatedDTO;
+    }
+
+    public Estudio UpdateEstudioDTO(int id, UpdateEstudioDTO updateEstudioDTO)
+    {
+        var estudio = _repository.GetById(id);
+        if (estudio == null)
         {
-            _estudioRepository = estudioRepository;
-            _mapper = mapper;
+            throw new Exception("Estúdio não encontrado");
         }
+        _mapper.Map(updateEstudioDTO, estudio);
 
-       
+        var estudioUpdated = _repository.Update(estudio);
+        var estudioUpdateDTO = _mapper.Map<Estudio>(estudioUpdated);
+        return estudioUpdateDTO;
+    }
 
-        public ActionResult<EstudioViewDTO> Get()
-        {
-            List<Estudio> estudios = _estudioRepository.Get();
-            if (estudios == null || estudios.Count == 0)
-            {
-                return NoContent();
-            }
-            var listDto = _mapper.Map<List<EstudioViewDTO>>(estudios);
-            return Ok(listDto);
-        }
-
-        public ActionResult<EstudioViewDTO> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult Post(CreateEstudioDTO dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult Put(int id, UpdateEstudioDTO dto)
-        {
-            throw new NotImplementedException();
-        } 
-        public ActionResult Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+    public bool DeleteEstudio(int id)
+    {
+        return _repository.Delete(id);
     }
 }

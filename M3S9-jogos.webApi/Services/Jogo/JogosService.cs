@@ -3,6 +3,7 @@ using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Jogos;
 using M3S9_jogos.webApi.Repositores;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace M3S9_jogos.webApi.Services.Jogo
 {
@@ -30,19 +31,24 @@ namespace M3S9_jogos.webApi.Services.Jogo
             return _mapper.Map<IEnumerable<ViewJogoDTO>>(jogos);
         }
 
-        public List<ViewJogoDTO> Get(int id)
+        public ViewJogoDTO Get (int id)
         {
-            throw new NotImplementedException();
+            var jogo = _jogoRepository.Get(id);
+            return _mapper.Map<ViewJogoDTO>(jogo);
+           
+        }
+//<ViewJogoDTO>
+        public void Insert (CreateJogoDTO dto)
+        {
+           var jogo = _mapper.Map<CreateJogoDTO>(dto);
+            _jogoRepository.Insert(jogo);
         }
 
-        public List<ViewJogoDTO> Insert(CreateJogoDTO dto)
+        public void Update (int id, UpdateJogoDTO dto)
         {
-            throw new NotImplementedException();
-        }
-
-        public UpdateJogoDTO Put(int id, UpdateJogoDTO dto)
-        {
-            throw new NotImplementedException();
+            var jogo = _mapper.Map<UpdateJogoDTO>(dto);
+            jogo.Id = id;
+            _jogoRepository.Update(jogo);
         }
     }
 }

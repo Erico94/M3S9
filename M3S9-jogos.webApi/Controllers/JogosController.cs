@@ -3,6 +3,7 @@ using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.DTOs.Jogos;
 using M3S9_jogos.webApi.Repositores;
+using M3S9_jogos.webApi.Services.Jogo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,15 @@ namespace M3S9_jogos.webApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JogosController : ControllerBase, IJogosController
+    public class JogosController : ControllerBase
     {
-        readonly JogoRepository _jogoRepository;
-        readonly IMapper _mapper;
+        readonly IJogosService _jogosService;
 
-        public JogosController(JogoRepository jogoRepository, IMapper mapper)
+        public JogosController(IJogosService jogosService)
         {
-            _jogoRepository = jogoRepository;
-            _mapper = mapper;
+            _jogosService = jogosService;
         }
+
         [HttpGet]
         public ActionResult<ViewJogoDTO> Get()
         {
@@ -78,7 +78,7 @@ namespace M3S9_jogos.webApi.Controllers
             if (jogo == null)
                 return NotFound();
 
-            _jogoRepository.Delete(id);
+            _jogoService.Delete
             return NoContent();
         }
 

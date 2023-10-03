@@ -18,10 +18,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<JogoDbContext>();
 
-builder.Services.AddScoped<EstudioRepository>();
+//builder.Services.AddScoped<EstudioRepository>();
 builder.Services.AddScoped<JogoRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-builder.Services.AddScoped<IEstudiosService>();
+
+
+builder.Services.AddScoped<IEstudioServices>();
 builder.Services.AddScoped<IJogosService>();
 
 builder.Services.AddEndpointsApiExplorer();

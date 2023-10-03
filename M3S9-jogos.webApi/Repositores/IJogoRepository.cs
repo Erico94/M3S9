@@ -5,7 +5,7 @@ namespace M3S9_jogos.webApi.Repositores
     public interface IJogoRepository
     {
         void Delete(int id);
-        List<Jogo> Get();
+        IEnumerable<Jogo> Get();
         Jogo Get(int id);
         void Insert(Jogo jogo);
         void Update(Jogo jogo);

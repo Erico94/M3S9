@@ -7,10 +7,11 @@ namespace M3S9_jogos.webApi.Repositores
     public class JogoRepository : IJogoRepository
     {
         readonly JogoDbContext _jogoDbContext;
-
-        public JogoRepository(JogoDbContext jogoDbContext)
+        readonly IJogoRepository _jogoRepository;
+        public JogoRepository(JogoDbContext jogoDbContext, IJogoRepository jogoRepository)
         {
             _jogoDbContext = jogoDbContext;
+            _jogoRepository = jogoRepository;   
         }
 
         public Jogo Get(int id)
@@ -43,6 +44,11 @@ namespace M3S9_jogos.webApi.Repositores
             .First();
             _jogoDbContext.Set<Jogo>().Remove(jogo);
             _jogoDbContext.SaveChanges();
+        }
+
+        IEnumerable<Jogo> IJogoRepository.Get()
+        {
+            throw new NotImplementedException();
         }
     }
 }
