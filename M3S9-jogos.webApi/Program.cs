@@ -14,17 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
 builder.Services.AddDbContext<JogoDbContext>();
 
-
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-
 
 builder.Services.AddScoped<IEstudioServices>();
 builder.Services.AddScoped<IJogosService>();
 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
