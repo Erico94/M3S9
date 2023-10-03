@@ -2,7 +2,7 @@
 using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.Repositores;
-using M3S9_jogos.webApi.Services.Estudio;
+
 
 public class EstudioServices : IEstudioServices
 {

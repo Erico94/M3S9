@@ -8,7 +8,6 @@ using AutoMapper;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Jogos;
-using M3S9_jogos.webApi.Services.Estudio;
 using M3S9_jogos.webApi.Services.Jogo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<JogoDbContext>();
 
-//builder.Services.AddScoped<EstudioRepository>();
-builder.Services.AddScoped<JogoRepository>();
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
