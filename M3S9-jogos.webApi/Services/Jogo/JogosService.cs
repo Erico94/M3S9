@@ -2,53 +2,60 @@
 using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Jogos;
 using M3S9_jogos.webApi.Repositores;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
+
 
 namespace M3S9_jogos.webApi.Services.Jogo
 {
-    public class JogosService
+    public class JogosService : IJogosService
     {
-        readonly IJogoRepository _jogoRepository;
+        readonly IRepository<M3S9_jogos.webApi.Domain.Jogo> _repository;
         readonly IMapper _mapper;
 
-        public JogosService(IJogoRepository jogoRepository, IMapper mapper)
+        public JogosService(IRepository<M3S9_jogos.webApi.Domain.Jogo> repository, IMapper mapper)
         {
-            _jogoRepository = jogoRepository;
+            _repository = repository;
             _mapper = mapper;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-          
-           _jogoRepository.Delete(id);
+
+            return _repository.Delete(id);
         }
 
         public IEnumerable<ViewJogoDTO> GetAllJogos()
         {
-            var jogos = _jogoRepository.Get();
-          
+            var jogos = _repository.GetAll();
+
             return _mapper.Map<IEnumerable<ViewJogoDTO>>(jogos);
         }
 
-        public ViewJogoDTO Get (int id)
+        public ViewJogoDTO Get(int id)
         {
-            var jogo = _jogoRepository.Get(id);
+            var jogo = _repository.GetById(id);
             return _mapper.Map<ViewJogoDTO>(jogo);
-           
-        }
-//<ViewJogoDTO>
-        public void Insert (CreateJogoDTO dto)
-        {
-           var jogo = _mapper.Map<CreateJogoDTO>(dto);
-            _jogoRepository.Insert(jogo);
+
         }
 
-        public void Update (int id, UpdateJogoDTO dto)
+        public M3S9_jogos.webApi.Domain.Jogo CreateJogoDTO(CreateJogoDTO dto)
         {
-            var jogo = _mapper.Map<UpdateJogoDTO>(dto);
-            jogo.Id = id;
-            _jogoRepository.Update(jogo);
+            var jogo = _mapper.Map<M3S9_jogos.webApi.Domain.Jogo>(dto);
+            var jogoCreated = _repository.Create(jogo);
+            var jogoCreatedDTO = _mapper.Map<M3S9_jogos.webApi.Domain.Jogo>(jogoCreated);
+            return jogoCreatedDTO;
+        }
+
+        public M3S9_jogos.webApi.Domain.Jogo UpdateJogoDTO(int id, UpdateJogoDTO dto)
+        {
+            var jogo = _repository.GetById(id);
+            if (jogo == null)
+                throw new Exception("Jogo não encontrado");
+            _mapper.Map(dto, jogo);
+
+            var jogoUpdated = _repository.Update(jogo);
+            var jogoUpdatedDTO = _mapper.Map<M3S9_jogos.webApi.Domain.Jogo>(jogoUpdated);
+            return jogoUpdatedDTO;
+
         }
     }
 }
