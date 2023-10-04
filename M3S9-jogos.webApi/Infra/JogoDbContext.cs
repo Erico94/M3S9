@@ -5,13 +5,10 @@ namespace M3S9_jogos.webApi.Infra
 {
     public class JogoDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public JogoDbContext(DbContextOptions options) : base(options)
         {
-            var connectionString = "Server=DESKTOP-9HO92VC\\SQLEXPRESS;Database=M3S9-WebApi;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
-            optionsBuilder.UseSqlServer(connectionString);
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+               protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EstudioConfiguration());
             modelBuilder.ApplyConfiguration(new JogoConfiguration());
