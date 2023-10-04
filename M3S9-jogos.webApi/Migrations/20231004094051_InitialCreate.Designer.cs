@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace M3S9_jogos.webApi.Migrations
 {
     [DbContext(typeof(JogoDbContext))]
-    [Migration("20231002192109_InitialCreate")]
+    [Migration("20231004094051_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

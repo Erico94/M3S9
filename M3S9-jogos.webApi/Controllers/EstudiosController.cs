@@ -7,80 +7,60 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace M3S9_jogos.webApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class EstudiosController : ControllerBase
+    [Route("[controller]")]
+    public class EstudioController : ControllerBase
     {
-        readonly EstudioRepository _estudioRepository;
-        readonly IMapper _mapper;
-        public EstudiosController(EstudioRepository estudioRepository, IMapper mapper)
+        private readonly IEstudioServices _estudioServices;
+
+        public EstudioController(IEstudioServices estudioServices)
         {
-            _estudioRepository = estudioRepository;
-            _mapper = mapper;
+            _estudioServices = estudioServices;
         }
 
         [HttpGet]
-        public ActionResult<EstudioViewDTO> Get()
+        public IActionResult Get()
         {
-            List<Estudio> estudios = _estudioRepository.Get();
-            if (estudios == null || estudios.Count == 0)
-            {
-                return NoContent();
-            }
-            var listDto =_mapper.Map<List<EstudioViewDTO>>(estudios);
-            return Ok(listDto);
+            var estudios = _estudioServices.Get();
+            return Ok(estudios);
         }
+
         [HttpGet("{id}")]
-        public ActionResult<EstudioViewDTO> Get(int id)
+        public IActionResult GetEstudioById(int id)
         {
-            Estudio estudio = _estudioRepository.Get(id);
+            var estudio = _estudioServices.GetEstudioById(id);
             if (estudio == null)
-            {
                 return NotFound();
-            }
-            var dto =_mapper.
-                Map<EstudioViewDTO>(estudio);
-           
-            return Ok(dto);
+
+            return Ok(estudio);
         }
 
         [HttpPost]
-        public ActionResult Post(CreateEstudioDTO dto)
+        public IActionResult CreateEstudio([FromBody] CreateEstudioDTO estudioCreateDTO)
         {
-            var estudio = _mapper.Map<Estudio>(dto);
-            _estudioRepository.Insert(estudio);
-
-            //var estudioViewDto = _mapper.Map<EstudioViewDTO>(estudio);
-
-            return Ok(estudio);
-
+            var estudio = _estudioServices.CreateEstudioDTO(estudioCreateDTO);
+            return CreatedAtAction(nameof(GetEstudioById), new { id = estudio.Id }, estudio);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, UpdateEstudioDTO dto)
+        public IActionResult UpdateEstudio(int id, [FromBody] UpdateEstudioDTO updateEstudioDTO)
         {
-            if (_estudioRepository.Get(id) == null)
-                return NotFound();
-
-            var estudio = _mapper.Map<Estudio>(dto);
-            if (estudio.Id != id)
-                return BadRequest();
-
-            _estudioRepository.Update(estudio);
-
-            return NoContent();
-
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
-            var estudio = _estudioRepository.Get(id);
+            var estudio = _estudioServices.UpdateEstudioDTO(id, updateEstudioDTO);
             if (estudio == null)
                 return NotFound();
 
-            _estudioRepository.Delete(id);
+            return Ok(estudio);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEstudio(int id)
+        {
+            var result = _estudioServices.DeleteEstudio(id);
+            if (!result)
+                return NotFound();
+
             return NoContent();
         }
     }
+
 }

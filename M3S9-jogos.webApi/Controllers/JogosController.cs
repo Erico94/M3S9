@@ -3,85 +3,69 @@ using M3S9_jogos.webApi.Domain;
 using M3S9_jogos.webApi.DTOs.Estudios;
 using M3S9_jogos.webApi.DTOs.Jogos;
 using M3S9_jogos.webApi.Repositores;
+using M3S9_jogos.webApi.Services.Jogo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace M3S9_jogos.webApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class JogosController : ControllerBase
     {
-        readonly JogoRepository _jogoRepository;
-        readonly IMapper _mapper;
+        private readonly IJogosService _jogoService;
 
-        public JogosController(JogoRepository jogoRepository, IMapper mapper)
+        public JogosController(IJogosService jogoService)
         {
-            _jogoRepository = jogoRepository;
-            _mapper = mapper;
+            _jogoService = jogoService;
         }
+
         [HttpGet]
-        public ActionResult<ViewJogoDTO> Get()
+        public IActionResult GetAllJogos()
         {
-            List<Jogo> jogos = _jogoRepository.Get();
-            if (jogos == null || jogos.Count == 0)
-            {
-                return NoContent();
-            }
-            var listDto = _mapper.Map<List<ViewJogoDTO>>(jogos);
-            return Ok(listDto);
+            var jogos = _jogoService.GetAllJogos();
+            return Ok(jogos);
         }
+
         [HttpGet("{id}")]
-        public ActionResult<ViewJogoDTO> Get(int id)
+        public IActionResult Get(int id)
         {
-            Jogo jogo = _jogoRepository.Get(id);
+            var jogo = _jogoService.Get(id);
             if (jogo == null)
-            {
                 return NotFound();
-            }
-            var dto = _mapper.
-                Map<ViewJogoDTO>(jogo);
-
-            return Ok(dto);
-        }
-
-        [HttpPost]
-        public ActionResult<ViewJogoDTO> Post(CreateJogoDTO dto)
-        {
-            var jogo = _mapper.Map<Jogo>(dto);
-            _jogoRepository.Insert(jogo);
-
-            //var viewJogoDto = _mapper.Map<ViewJogoDTO>(jogo);
 
             return Ok(jogo);
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, UpdateJogoDTO dto)
+        [HttpPost]
+        public IActionResult CreateJogo([FromBody] CreateJogoDTO dto)
         {
-            if (_jogoRepository.Get(id) == null)
-                return NotFound();
-
-            var jogo = _mapper.Map<Jogo>(dto);
-            if (jogo.Id != id)
-                return BadRequest();
-
-            _jogoRepository.Update(jogo);
-
-            return NoContent();
+            var jogo = _jogoService.CreateJogoDTO(dto);
+            return CreatedAtAction(nameof(Get), new { id = jogo.Id }, jogo);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [HttpPut("{id}")]
+        public IActionResult UpdateJogo(int id, [FromBody] UpdateJogoDTO dto)
         {
-            var jogo = _jogoRepository.Get(id);
+            var jogo = _jogoService.UpdateJogoDTO(id, dto);
             if (jogo == null)
                 return NotFound();
 
-            _jogoRepository.Delete(id);
-            return NoContent();
+            return Ok(jogo);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _jogoService.Delete(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+                
 
+            return NoContent();
+        }
     }
+
 }
